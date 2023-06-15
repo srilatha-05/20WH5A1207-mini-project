@@ -1,0 +1,64 @@
+CODE:
+Designing and Training of the model:
+# Loading dataset
+import pandas as pd
+urls data = pd.read csv(” urldata.csv”
+urls data.head()
+# Dataset cleaning
+def makeTokens(f):
+tkns BySlash = str(f.encode(’utf-8’)).split(’/’)
+# make tokens after splitting by slash
+total Tokens = []
+for i in tkns BySlash:
+tokens = str(i).split(’-’)
+# make tokens after splitting by dash
+tkns ByDot = []
+for j in range(0,len(tokens)):
+temp Tokens = str(tokens[j]).split(’.’)
+# make tokens after splitting by dot
+tkns ByDot = tkns ByDot + temp Tokens
+total Tokens = total Tokens + tokens + tkns ByDot
+total Tokens = list(set(total Tokens))
+#remove redundant tokens
+if ’com’ in total Tokens:
+total Tokens.remove(’com’)
+# removing .com since it occurs a lot of times and it should not be included in our feature
+return total Tokens
+# Features and labels
+url list = urls data[url”] ¨
+y = urls data[”label”]
+# Importing packages
+from sklearn.linear model import LogisticRegression
+from sklearn.model selection import train test split
+from sklearn.feature extraction.text import TfidfVectorizer
+# Convert the text data into vectors of numbers
+vectorizer = TfidfVectorizer(tokenizer=makeTokens)
+X train, X test, y train, y test = train test split(X, y, test size=0.2, random state=42)
+# Model building using LogisticRegression
+logit = LogisticRegression()
+logit.fit(X train, y train)
+# Calculating the model’s accuracy score
+print(.Accuracy ”,logit.score(X test, y test))
+Accuracy 0.96163771063
+#Testing and Prediction:
+To make predictions, we will use several URLs and see if the model can classify if the URL is
+bad or good
+X predict = [”https://www.section.io/engineering-education/”,
+”https://www.youtube.com/”,
+”https://www.traversymedia.com/”,
+”https://www.kleinehundezuhause.com”,
+”http://ttps://www.mecymiafinance.com”,
+”https://www.atlanticoceanicoilandgas.com”]
+X predict = vectorizer.transform(X predict)
+New predict = logit.predict(X predict)
+print(New predict)
+# Another Prediction
+X predict1 = [”www.buyfakebillsonlinee.blogspot.com”,
+”www.unitedairlineslogistics.com”,
+”www.stonehousedelivery.com”,
+”www.silkroadmeds-onlinepharmacy.com”]
+# To make predictions
+X predict1 = vectorizer.transform(X predict1)
+New predict1 = logit.predict(X predict1)
+print(New predict1)
+
